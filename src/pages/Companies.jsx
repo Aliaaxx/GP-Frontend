@@ -24,6 +24,7 @@ import DeleteModal from "../components/companies/DeleteModal";
 import ViewModal from "../components/companies/ViewModal";
 import CompanyRequestModal from "../components/companies/CompanyRequestModal";
 import { fetchAllData, exportToCSV } from "../utils/csvExport";
+import OnboardingTour from "../components/onboarding/OnboardingTour";
 import { getLogoUrl } from "../utils/logoUtils";
 
 export default function Companies() {
@@ -388,12 +389,12 @@ export default function Companies() {
       {isExporting ? 'Exporting...' : 'Export'}
     </Button>,
     ...(isAdmin ? [
-      <Button key="add" onClick={() => setIsAddModalOpen(true)}>
+      <Button key="add" onClick={() => setIsAddModalOpen(true)} data-tour="request-company">
         <Plus className="w-4 h-4 mr-2" />
         Add Company
       </Button>
     ] : [
-      <Button key="request" onClick={() => setIsRequestModalOpen(true)}>
+      <Button key="request" onClick={() => setIsAddModalOpen(true)} data-tour="request-company">
         <Plus className="w-4 h-4 mr-2" />
         Request Company
       </Button>
@@ -402,7 +403,7 @@ export default function Companies() {
 
   // Filters
   const filters = [
-    <div key="search" className="flex-1">
+    <div key="search" className="flex-1" data-tour="search-filters">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
         <Input
@@ -511,6 +512,8 @@ export default function Companies() {
 
   return (
     <>
+      <OnboardingTour page="companies" />
+      <div data-tour="company-table">
       <Table
         useModernUI={true}
         title="Companies"
@@ -534,6 +537,7 @@ export default function Companies() {
         setOrder={handleSort}
         emptyState="No companies found"
       />
+      </div>
 
       {/* Modals */}
       {isAdmin && (
